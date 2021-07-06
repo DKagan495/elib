@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Card</title>
+</head>
+<body>
+<h1>Your reader`s card</h1>
+    <p th:text="'Number of card: ' + ${user.getId()}">user</p>
+    <p th:text="'Name: ' + ${user.getName()}">user</p>
+    <p th:text="'Surname: ' + ${user.getSurname()}">user</p>
+    <p th:text="'Age: ' + ${user.getAge()}">user</p>
+    <p th:text="'Books have: ' + ${user.getBooksHave()}">user</p>
+    <p th:text="'Books done: ' + ${user.getBooksDone()}">user</p>
+<a href="/books">Books availible</a>
+<a href="/logout">Log Out</a>
+</body>
+</html>
