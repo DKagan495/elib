@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Component
 public class BookDAO {
+    public static int NUMBEROFBOOKS = 0;
     private static final String URL = "jdbc:postgresql://localhost:1605/elibdb";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "daka16052002";
@@ -34,6 +36,7 @@ public class BookDAO {
         while(resultSet.next()){
             Book book = new Book();
             book.setId(resultSet.getInt("id"));
+            NUMBEROFBOOKS = book.getId();
             book.setName(resultSet.getString("name"));
             book.setAuthor(resultSet.getString("author"));
             book.setNumberOfPages(resultSet.getInt("numberofpages"));
@@ -41,5 +44,21 @@ public class BookDAO {
             bookList.add(book);
         }
         return bookList;
+    }
+    public Book showBook(int id) throws SQLException{
+        List<Book> bookList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from books");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            Book book = new Book();
+            book.setId(resultSet.getInt("id"));
+            NUMBEROFBOOKS = book.getId();
+            book.setName(resultSet.getString("name"));
+            book.setAuthor(resultSet.getString("author"));
+            book.setNumberOfPages(resultSet.getInt("numberofpages"));
+            book.setYear(resultSet.getInt("year"));
+            bookList.add(book);
+        }
+        return bookList.get(id);
     }
 }

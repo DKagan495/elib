@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>${book.getName()}</title>
+</head>
+<body>
+    <p th:text="'Number of this book: ' + ${book.getId()}">book</p>
+    <p th:text="${book.getName()}">book</p>
+    <p th:text="${book.getAuthor()}">book</p>
+    <p th:text="'This book contains ' + ${book.getNumberOfPages()} + ' pages'">book</p>
+    <p th:text="'World see this book in ' + ${book.getYear()}">book</p>
+</body>
+</html>
