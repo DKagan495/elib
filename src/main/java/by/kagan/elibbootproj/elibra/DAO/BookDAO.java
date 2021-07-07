@@ -10,7 +10,7 @@ import java.util.List;
 
 @Component
 public class BookDAO {
-    public static int NUMBEROFBOOKS = 0;
+    private static int NUMBEROFBOOKS = 0;
     private static final String URL = "jdbc:postgresql://localhost:1605/elibdb";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "daka16052002";

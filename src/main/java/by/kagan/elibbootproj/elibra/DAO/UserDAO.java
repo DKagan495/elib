@@ -39,6 +39,7 @@ public class UserDAO {
         ID++;
         user.setId(ID);
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        preparedStatement.setInt(8, user.getId());
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getSurname());
         preparedStatement.setString(3, user.getEmail());
@@ -46,7 +47,6 @@ public class UserDAO {
         preparedStatement.setInt(5, user.getAge());
         preparedStatement.setInt(6, user.getBooksHave());
         preparedStatement.setInt(7, user.getBooksDone());
-        preparedStatement.setInt(8, user.getId());
         preparedStatement.executeUpdate();
     }
     /*public User toUsersCard(){
@@ -89,6 +89,7 @@ public class UserDAO {
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
             User user = new User();
+            user.setId(resultSet.getInt("id"));
             user.setName(resultSet.getString("name"));
             user.setSurname(resultSet.getString("surname"));
             user.setEmail(resultSet.getString("email"));
@@ -96,7 +97,6 @@ public class UserDAO {
             user.setAge(resultSet.getInt("age"));
             user.setBooksHave(resultSet.getInt("bookshave"));
             user.setBooksDone(resultSet.getInt("booksdone"));
-            user.setId(resultSet.getInt("id"));
             ID = user.getId();
             userList.add(user);
         }
@@ -107,6 +107,36 @@ public class UserDAO {
             counter++;
         }
             return null;
+    }
+    public User toUserCard(int id) throws SQLException{
+        List<User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from users");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
+            user.setAge(resultSet.getInt("age"));
+            user.setBooksHave(resultSet.getInt("bookshave"));
+            user.setBooksDone(resultSet.getInt("booksdone"));
+            userList.add(user);
+        }
+        return userList.get(id);
+    }
+    public List<User> showUserList() throws SQLException{
+        List<User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select * from users");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            userList.add(user);
+        }
+        return userList;
     }
     public void doLogOut(User user){
         user.setLogin(false);
