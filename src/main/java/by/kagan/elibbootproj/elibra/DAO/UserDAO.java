@@ -82,6 +82,7 @@ public class UserDAO {
         System.out.println("Method is working! " + ID);
         while(counter<=ID){
             if(userDBList().get(counter).getEmail().equals(user.getEmail()) && userDBList().get(counter).getPassword().equals(user.getPassword())){
+                user.setId(counter+1);
                 user.setLogin(true);
                 System.out.println("success");
                 return true;
@@ -118,9 +119,16 @@ public class UserDAO {
         return userList;
     }
     public void plusBookUpd(User user) throws SQLException{
-        System.out.println(id + " is a un");
-        user.setBooksHave(user.getBooksHave()+1);
-        PreparedStatement preparedStatement = connection.prepareStatement("update users set bookshave = bookshave + 1 where id = " + id);
+        PreparedStatement pstmt = connection.prepareStatement("select bookshave from users where id = ?");
+        pstmt.setInt(1, user.getId());
+        ResultSet resultSet = pstmt.executeQuery();
+        if(resultSet.next()) {
+            user.setBooksHave(resultSet.getInt("bookshave") + 1);
+        }
+        //System.out.println(user.getBooksHave + " have books now");
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set bookshave = ? where id = ?");
+        preparedStatement.setInt(1, user.getBooksHave());
+        preparedStatement.setInt(2, user.getId());
         preparedStatement.executeUpdate();
     }
     public void doLogOut(User user){

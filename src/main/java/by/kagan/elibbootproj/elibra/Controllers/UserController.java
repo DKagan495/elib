@@ -35,6 +35,8 @@ public class UserController {
         if(userDAO.doLog(user)) {
             user.setLogin(true);
             //redirectAttributes.addFlashAttribute("user", user);
+            httpSession.setAttribute("id", user.getId());
+            System.out.println(httpSession.getAttribute("id") + " it is id");
             httpSession.setAttribute("email", user.getEmail());
             httpSession.setAttribute("password", user.getPassword());
             httpSession.setAttribute("isLogin", user.isLogin());
@@ -56,6 +58,8 @@ public class UserController {
     public String regAttempt(@ModelAttribute User user) throws SQLException{
         userDAO.doReg(user);
         user.setLogin(true);
+        httpSession.setAttribute("id", user.getId());
+        System.out.println(httpSession.getAttribute("id") + " it is id");
         httpSession.setAttribute("name", user.getName());
         httpSession.setAttribute("surname", user.getSurname());
         httpSession.setAttribute("isLogin", user.isLogin());
@@ -88,8 +92,8 @@ public class UserController {
     }
     @GetMapping("/sucget")
     public String toSucGet(@ModelAttribute User user) throws SQLException {
-        //user.setId((int)httpSession.getAttribute("id"));
-        System.out.println(user.getId() + "is uer id");
+        user.setId((int)httpSession.getAttribute("id"));
+        //System.out.println(user.getId() + "is uer id");
         userDAO.plusBookUpd(user);
         return "redirect:/mycard";
     }
