@@ -103,20 +103,10 @@ public class UserDAO {
             return null;
     }
     public User toUserCard(int id) throws SQLException{
-        return userDBList().get(id);
+        return userDBList().get(id-1);
     }
     public List<User> showUserList() throws SQLException{
-        List<User> userList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from users");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            userList.add(user);
-        }
-        return userList;
+        return userDBList();
     }
     public void plusBookUpd(User user) throws SQLException{
         PreparedStatement pstmt = connection.prepareStatement("select bookshave from users where id = ?");
