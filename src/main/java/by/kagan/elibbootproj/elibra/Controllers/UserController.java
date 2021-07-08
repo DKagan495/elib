@@ -31,7 +31,7 @@ public class UserController {
         return "redirect:/mycard";
     }
     @PostMapping("/mycard")
-    public String loginAttempt(@ModelAttribute User user, RedirectAttributes redirectAttributes) throws SQLException {
+    public String loginAttempt(@ModelAttribute User user/*, RedirectAttributes redirectAttributes*/) throws SQLException {
         if(userDAO.doLog(user)) {
             user.setLogin(true);
             //redirectAttributes.addFlashAttribute("user", user);
@@ -85,6 +85,13 @@ public class UserController {
         }
         model.addAttribute("user", userDAO.toUserCard(id));
         return "usercard";
+    }
+    @GetMapping("/sucget")
+    public String toSucGet(@ModelAttribute User user) throws SQLException {
+        //user.setId((int)httpSession.getAttribute("id"));
+        System.out.println(user.getId() + "is uer id");
+        userDAO.plusBookUpd(user);
+        return "redirect:/mycard";
     }
     @GetMapping("/logout")
     public String logOut(@ModelAttribute User user){

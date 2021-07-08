@@ -5,11 +5,13 @@ import org.springframework.stereotype.Component;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
 @Component
 public class UserDAO {
+    private int id = 0;
     private static int ID = 0;
     private static final String URL = "jdbc:postgresql://localhost:1605/elibdb";
     private static final String USERNAME = "postgres";
@@ -29,15 +31,38 @@ public class UserDAO {
             throwables.printStackTrace();
         }
     }
+    private List<User> userDBList() throws SQLException {
+        ID = 0;
+        List<User> userList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select*from users");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            ID++;
+            User user = new User();
+            user.setId(resultSet.getInt("id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setEmail(resultSet.getString("email"));
+            user.setPassword(resultSet.getString("password"));
+            user.setAge(resultSet.getInt("age"));
+            user.setBooksHave(resultSet.getInt("bookshave"));
+            user.setBooksDone(resultSet.getInt("booksdone"));
+            userList.add(user);
+        }
+        userList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                return o1.getId() - o2.getId();
+            }
+        });
+        for(User user : userList)
+            System.out.println(user.getId());
+        return userList;
+    }
     public void doReg(User user) throws SQLException {
         System.out.println("What do ypu mean about this&");
-        PreparedStatement selectPreparedStatement = connection.prepareStatement("SELECT id FROM users ");
-        ResultSet resultSet = selectPreparedStatement.executeQuery();
-        while(resultSet.next()){
-            ID = resultSet.getInt("id");
-        }
-        ID++;
-        user.setId(ID);
+        userDBList();
+        user.setId(ID+1);
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setInt(8, user.getId());
         preparedStatement.setString(1, user.getName());
@@ -53,26 +78,10 @@ public class UserDAO {
 
     }*/
     public boolean doLog(User user) throws SQLException{
-        PreparedStatement preparedStatement = connection.prepareStatement("select*from users");
-        List<User> userList = new ArrayList<>();
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            User exampleUser = new User();
-            exampleUser.setId(resultSet.getInt("id"));
-            ID = exampleUser.getId();
-            exampleUser.setName(resultSet.getString("name"));
-            exampleUser.setSurname(resultSet.getString("surname"));
-            exampleUser.setEmail(resultSet.getString("email"));
-            exampleUser.setPassword(resultSet.getString("password"));
-            exampleUser.setAge(resultSet.getInt("age"));
-            exampleUser.setBooksHave(resultSet.getInt("bookshave"));
-            exampleUser.setBooksDone(resultSet.getInt("booksdone"));
-            userList.add(exampleUser);
-        }
         int counter = 0;
         System.out.println("Method is working! " + ID);
         while(counter<=ID){
-            if(userList.get(counter).getEmail().equals(user.getEmail()) && userList.get(counter).getPassword().equals(user.getPassword())){
+            if(userDBList().get(counter).getEmail().equals(user.getEmail()) && userDBList().get(counter).getPassword().equals(user.getPassword())){
                 user.setLogin(true);
                 System.out.println("success");
                 return true;
@@ -84,46 +93,16 @@ public class UserDAO {
     }
     public User toMyCard(String email, String password) throws SQLException {
         System.out.println("DAOemail + " + email);
-        List<User> userList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("select*from users");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setEmail(resultSet.getString("email"));
-            user.setPassword(resultSet.getString("password"));
-            user.setAge(resultSet.getInt("age"));
-            user.setBooksHave(resultSet.getInt("bookshave"));
-            user.setBooksDone(resultSet.getInt("booksdone"));
-            ID = user.getId();
-            userList.add(user);
-        }
         int counter = 0;
         while(counter <= ID){
-            if(userList.get(counter).getEmail().equals(email) && userList.get(counter).getPassword().equals(password))
-                return userList.get(counter);
+            if(userDBList().get(counter).getEmail().equals(email) && userDBList().get(counter).getPassword().equals(password))
+                return userDBList().get(counter);
             counter++;
         }
             return null;
     }
     public User toUserCard(int id) throws SQLException{
-        List<User> userList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("select * from users");
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while(resultSet.next()){
-            User user = new User();
-            user.setId(resultSet.getInt("id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setEmail(resultSet.getString("email"));
-            user.setAge(resultSet.getInt("age"));
-            user.setBooksHave(resultSet.getInt("bookshave"));
-            user.setBooksDone(resultSet.getInt("booksdone"));
-            userList.add(user);
-        }
-        return userList.get(id);
+        return userDBList().get(id);
     }
     public List<User> showUserList() throws SQLException{
         List<User> userList = new ArrayList<>();
@@ -137,6 +116,12 @@ public class UserDAO {
             userList.add(user);
         }
         return userList;
+    }
+    public void plusBookUpd(User user) throws SQLException{
+        System.out.println(id + " is a un");
+        user.setBooksHave(user.getBooksHave()+1);
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set bookshave = bookshave + 1 where id = " + id);
+        preparedStatement.executeUpdate();
     }
     public void doLogOut(User user){
         user.setLogin(false);

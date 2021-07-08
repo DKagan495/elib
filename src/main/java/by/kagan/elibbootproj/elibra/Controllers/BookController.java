@@ -1,6 +1,7 @@
 package by.kagan.elibbootproj.elibra.Controllers;
 
 import by.kagan.elibbootproj.elibra.DAO.BookDAO;
+import by.kagan.elibbootproj.elibra.Models.Book;
 import by.kagan.elibbootproj.elibra.Models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
 import java.util.Map;
@@ -38,4 +41,12 @@ public class BookController {
         model.addAttribute("book", bookDAO.showBook(id-1));
         return "book";
     }
+   /* @GetMapping("/books/{id}/get")
+    public String getBook(@PathVariable int id, @ModelAttribute Book book, Model model, HttpServletResponse response) throws SQLException {
+        model.addAttribute("book", bookDAO.showBook(id));
+        response.addCookie(new Cookie("bookname", book.getName()));
+        response.addCookie(new Cookie("bookauthor", book.getAuthor()));
+        return "redirect:/sucget";
+
+    }*/
 }
