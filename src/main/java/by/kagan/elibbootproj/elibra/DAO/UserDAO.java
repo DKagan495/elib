@@ -117,10 +117,14 @@ public class UserDAO {
         }
         //System.out.println(user.getBooksHave + " have books now");
         PreparedStatement preparedStatement = connection.prepareStatement("update users set bookshave = ? where id = ?");
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update bookstousers set user_id = ? where user_id is null");
         preparedStatement.setInt(1, user.getBooksHave());
         preparedStatement.setInt(2, user.getId());
+        preparedStatement1.setInt(1, user.getId());
         preparedStatement.executeUpdate();
+        preparedStatement1.executeUpdate();
     }
+
     public void doLogOut(User user){
         user.setLogin(false);
     }

@@ -42,11 +42,10 @@ public class BookController {
         return "book";
     }
     @GetMapping("/books/{id}/get")
-    public String getBook(@PathVariable int id, @ModelAttribute Book book, Model model, HttpServletResponse response) throws SQLException {
-        model.addAttribute("book", bookDAO.showBook(id));
+    public String getBook(@PathVariable int id, @ModelAttribute Book book, Model model) throws SQLException {
+        model.addAttribute("book", bookDAO.showBook(id-1));
+        System.out.println(book.getId() + " this is the book id");
         bookDAO.addBookToUser(id);
-        response.addCookie(new Cookie("bookname", book.getName()));
-        response.addCookie(new Cookie("bookauthor", book.getAuthor()));
         return "redirect:/sucget";
 
     }

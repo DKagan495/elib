@@ -10,5 +10,7 @@
     <p th:text="${book.getAuthor()}">book</p>
     <p th:text="'This book contains ' + ${book.getNumberOfPages()} + ' pages'">book</p>
     <p th:text="'World see this book in ' + ${book.getYear()}">book</p>
+    <a th:href="@{/books/{id}/get(id = ${book.getId()})}">Get this book</a>
+
 </body>
 </html>
