@@ -76,6 +76,8 @@ public class UserController {
     public String toMyCard(Model model) throws SQLException {
         System.out.println("method is working froo " + (String) httpSession.getAttribute("email"));
         model.addAttribute("user", userDAO.toMyCard((String) httpSession.getAttribute("email"), (String) httpSession.getAttribute("password")));
+        SessionService.setCURRENTSESSION(httpSession);
+        System.out.println(SessionService.getCURRENTSESSION().getAttribute("email") + "it is session service saved email");
         return "mycard";
     }
     @GetMapping("/users")

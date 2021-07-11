@@ -41,7 +41,7 @@ public class BookController {
     public String showBook(@PathVariable int id, Model model) throws SQLException {
         model.addAttribute("book", bookDAO.showBook(id-1));
         SessionService sessionService = new SessionService();
-        //model.addAttribute("isTaken", bookDAO.isUserTaked((Integer) sessionService.getCURRENTSESSION().getAttribute("id"), id));
+        model.addAttribute("isTaken", bookDAO.isUserTaked((Integer) sessionService.getCURRENTSESSION().getAttribute("id"), id));
         System.out.println("This book is taken me, yes? -- " + bookDAO.isUserTaked((Integer) sessionService.getCURRENTSESSION().getAttribute("id"), id));
         return "book";
     }
