@@ -97,6 +97,11 @@ public class UserController {
         userDAO.plusBookUpd(user);
         return "redirect:/mycard";
     }
+    @GetMapping("/mybooks")
+    public String toMyBooks(Model model) throws SQLException {
+        model.addAttribute("books", userDAO.showMyBooks((int) httpSession.getAttribute("id")));
+        return "mybooks";
+    }
     @GetMapping("/logout")
     public String logOut(@ModelAttribute User user){
         httpSession.invalidate();

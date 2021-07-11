@@ -47,6 +47,5 @@ public class BookController {
         System.out.println(book.getId() + " this is the book id");
         bookDAO.addBookToUser(id);
         return "redirect:/sucget";
-
     }
 }

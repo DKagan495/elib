@@ -1,5 +1,6 @@
 package by.kagan.elibbootproj.elibra.DAO;
 
+import by.kagan.elibbootproj.elibra.Models.Book;
 import by.kagan.elibbootproj.elibra.Models.User;
 import org.springframework.stereotype.Component;
 
@@ -49,12 +50,7 @@ public class UserDAO {
             user.setBooksDone(resultSet.getInt("booksdone"));
             userList.add(user);
         }
-        userList.sort(new Comparator<User>() {
-            @Override
-            public int compare(User o1, User o2) {
-                return o1.getId() - o2.getId();
-            }
-        });
+        userList.sort((o1, o2) -> o1.getId() - o2.getId());
         for(User user : userList)
             System.out.println(user.getId());
         return userList;
@@ -124,7 +120,19 @@ public class UserDAO {
         preparedStatement.executeUpdate();
         preparedStatement1.executeUpdate();
     }
-
+    public List<Book> showMyBooks(int id) throws SQLException {
+        List<Book> myBooksList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name from bookstousers where user_id = ?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            Book book = new Book();
+            book.setId(resultSet.getInt("book_id"));
+            book.setName(resultSet.getString("book_name"));
+            myBooksList.add(book);
+        }
+        return myBooksList;
+    }
     public void doLogOut(User user){
         user.setLogin(false);
     }
