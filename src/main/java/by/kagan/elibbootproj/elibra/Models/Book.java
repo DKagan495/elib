@@ -2,6 +2,7 @@ package by.kagan.elibbootproj.elibra.Models;
 
 public class Book {
     private int id;
+    private int userId;
     private String name;
     private String author;
     private int numberOfPages;
@@ -16,6 +17,14 @@ public class Book {
         this.author = author;
         this.numberOfPages = numberOfPages;
         this.year = year;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getId() {

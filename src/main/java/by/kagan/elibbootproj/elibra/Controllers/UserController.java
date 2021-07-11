@@ -2,6 +2,7 @@ package by.kagan.elibbootproj.elibra.Controllers;
 
 import by.kagan.elibbootproj.elibra.DAO.UserDAO;
 import by.kagan.elibbootproj.elibra.Models.User;
+import by.kagan.elibbootproj.elibra.Services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +16,7 @@ import java.sql.SQLException;
 @Controller
 public class UserController {
     private final UserDAO userDAO;
+    private SessionService sessionService = new SessionService();
     private HttpSession httpSession;
     @Autowired
     public UserController(UserDAO userDAO, HttpSession httpSession) {
@@ -40,6 +42,8 @@ public class UserController {
             httpSession.setAttribute("email", user.getEmail());
             httpSession.setAttribute("password", user.getPassword());
             httpSession.setAttribute("isLogin", user.isLogin());
+            SessionService.setCURRENTSESSION(httpSession);
+            System.out.println(SessionService.getCURRENTSESSION().getAttribute("email") + "it is session service saved email");
             return "redirect:/mycard";
         }
         else

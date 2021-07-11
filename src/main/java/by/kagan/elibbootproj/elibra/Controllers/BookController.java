@@ -3,6 +3,7 @@ package by.kagan.elibbootproj.elibra.Controllers;
 import by.kagan.elibbootproj.elibra.DAO.BookDAO;
 import by.kagan.elibbootproj.elibra.Models.Book;
 import by.kagan.elibbootproj.elibra.Models.User;
+import by.kagan.elibbootproj.elibra.Services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,6 +40,9 @@ public class BookController {
     @GetMapping("/books/{id}")
     public String showBook(@PathVariable int id, Model model) throws SQLException {
         model.addAttribute("book", bookDAO.showBook(id-1));
+        SessionService sessionService = new SessionService();
+        //model.addAttribute("isTaken", bookDAO.isUserTaked((Integer) sessionService.getCURRENTSESSION().getAttribute("id"), id));
+        System.out.println("This book is taken me, yes? -- " + bookDAO.isUserTaked((Integer) sessionService.getCURRENTSESSION().getAttribute("id"), id));
         return "book";
     }
     @GetMapping("/books/{id}/get")

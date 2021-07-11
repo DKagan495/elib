@@ -133,6 +133,7 @@ public class UserDAO {
         }
         return myBooksList;
     }
+
     public void doLogOut(User user){
         user.setLogin(false);
     }

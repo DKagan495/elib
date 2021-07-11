@@ -66,4 +66,22 @@ public class BookDAO {
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
     }
+    public boolean isUserTaked(int userId, int bookId) throws SQLException {
+        List<Book> checkBookList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select user_id, book_id from bookstousers");
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            Book book = new Book();
+            book.setUserId(resultSet.getInt("user_id"));
+            book.setId(resultSet.getInt("book_id"));
+            checkBookList.add(book);
+        }
+        int counter = 0;
+        while(counter < checkBookList.size()){
+            if(checkBookList.get(counter).getId() == bookId && checkBookList.get(counter).getUserId() == userId)
+                return true;
+            counter++;
+        }
+        return false;
+    }
 }
