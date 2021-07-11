@@ -61,4 +61,9 @@ public class BookDAO {
         }
         return bookList.get(id);
     }
+    public void addBookToUser(int id) throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into bookstousers (book_id, book_name) select id, name from books where id = ?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
+    }
 }
