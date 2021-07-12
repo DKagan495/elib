@@ -141,6 +141,19 @@ public class UserDAO {
         }
         return myBooksList;
     }
+    public List<Book> showCompletedBooks(int id) throws SQLException {
+        List<Book> myBooksList = new ArrayList<>();
+        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name from b2udone where user_id = ?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        while(resultSet.next()){
+            Book book = new Book();
+            book.setId(resultSet.getInt("book_id"));
+            book.setName(resultSet.getString("book_name"));
+            myBooksList.add(book);
+        }
+        return myBooksList;
+    }
     public void doLogOut(User user){
         user.setLogin(false);
     }

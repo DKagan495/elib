@@ -80,7 +80,7 @@ public class UserController {
     @GetMapping("/mycard")
     public String toMyCard(Model model) throws SQLException {
         if(httpSession.getAttribute("isLogin")==null || !(boolean) httpSession.getAttribute("isLogin")){
-            return "loginpage";
+            return "redirect:/login";
         }
         System.out.println("method is working froo " + (String) httpSession.getAttribute("email"));
         model.addAttribute("user", userDAO.toMyCard((String) httpSession.getAttribute("email"), (String) httpSession.getAttribute("password")));
@@ -116,9 +116,19 @@ public class UserController {
         model.addAttribute("books", userDAO.showMyBooks((int) httpSession.getAttribute("id")));
         return "mybooks";
     }
+    @GetMapping("/completed")
+    public String toMyCompletedBooks(Model model) throws SQLException {
+        model.addAttribute("books", userDAO.showCompletedBooks((int) httpSession.getAttribute("id")));
+        return "mybooks";
+    }
     @GetMapping("/users/{id}/books")
     public String toUserBooks(@PathVariable int id, Model model) throws SQLException{
         model.addAttribute("books", userDAO.showMyBooks(id));
+        return "mybooks";
+    }
+    @GetMapping("/users/{id}/completed")
+    public String toUserCompletedBooks(@PathVariable int id, Model model) throws SQLException{
+        model.addAttribute("books", userDAO.showCompletedBooks(id));
         return "mybooks";
     }
     @GetMapping("/completely")
