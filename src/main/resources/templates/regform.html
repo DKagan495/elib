@@ -7,12 +7,18 @@
 <body>
     <h1>Please, enter info about you</h1>
 <form th:method="POST" th:object="${user}">
+    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{name}">nameerror</div>
         <input type="text" th:field="*{name}" id="name" placeholder="Name"></br>
+    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{surname}">surnameerror</div>
         <input type="text" th:field="*{surname}" id="surname" placeholder="Surname"><br>
+    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{age}">ageerror</div>
         <input type="text" th:field="*{age}" id="age" placeholder="Age"></br>
+    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{email}">emailerror</div>
         <input type="email" th:field="*{email}" id="email" placeholder="Email"></br>
+    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{password}">passworderror</div>
         <input type="password" th:field="*{password}" id="password" placeholder="Password"></br>
     <input type="submit" value="Do this!">
 </form>
+    <h2>Little information about registration</h2>
 </body>
 </html>

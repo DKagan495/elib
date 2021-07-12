@@ -7,9 +7,7 @@ import by.kagan.elibbootproj.elibra.Services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.servlet.http.Cookie;
@@ -51,5 +49,11 @@ public class BookController {
         System.out.println(book.getId() + " this is the book id");
         bookDAO.addBookToUser(id);
         return "redirect:/sucget";
+    }
+    @GetMapping("/books/{id}/complete")
+    public String completeBook(@PathVariable int id, @ModelAttribute Book book, Model model) throws SQLException {
+        model.addAttribute("book", bookDAO.showBook(id-1));
+        bookDAO.addBookCompleteToUser(id, (Integer) SessionService.getCURRENTSESSION().getAttribute("id"));
+        return "redirect:/completely";
     }
 }

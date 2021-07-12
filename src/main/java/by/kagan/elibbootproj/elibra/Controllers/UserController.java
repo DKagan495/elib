@@ -6,10 +6,12 @@ import by.kagan.elibbootproj.elibra.Services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.sql.SQLException;
 
 
@@ -59,7 +61,9 @@ public class UserController {
             return "redirect:/mycard";
     }
     @PostMapping("/reg")
-    public String regAttempt(@ModelAttribute User user) throws SQLException{
+    public String regAttempt(@ModelAttribute @Valid User user, BindingResult bindingResult) throws SQLException{
+        if(bindingResult.hasErrors())
+            return "regform";
         userDAO.doReg(user);
         user.setLogin(true);
         httpSession.setAttribute("id", user.getId());
@@ -75,6 +79,9 @@ public class UserController {
     }
     @GetMapping("/mycard")
     public String toMyCard(Model model) throws SQLException {
+        if(httpSession.getAttribute("isLogin")==null || !(boolean) httpSession.getAttribute("isLogin")){
+            return "loginpage";
+        }
         System.out.println("method is working froo " + (String) httpSession.getAttribute("email"));
         model.addAttribute("user", userDAO.toMyCard((String) httpSession.getAttribute("email"), (String) httpSession.getAttribute("password")));
         SessionService.setCURRENTSESSION(httpSession);
@@ -113,6 +120,12 @@ public class UserController {
     public String toUserBooks(@PathVariable int id, Model model) throws SQLException{
         model.addAttribute("books", userDAO.showMyBooks(id));
         return "mybooks";
+    }
+    @GetMapping("/completely")
+    public String toCompleteOperation(@ModelAttribute User user) throws SQLException{
+        user.setId((int)httpSession.getAttribute("id"));
+        userDAO.bookToCompleteUpd(user);
+        return "redirect:/mycard";
     }
     @GetMapping("/logout")
     public String logOut(@ModelAttribute User user){

@@ -11,7 +11,9 @@
     <p th:text="'This book contains ' + ${book.getNumberOfPages()} + ' pages'">book</p>
     <p th:text="'World see this book in ' + ${book.getYear()}">book</p>
     <a th:if="${!isTaken}" th:href="@{/books/{id}/get(id = ${book.getId()})}">Get this book</a>
-    <p th:if="${isTaken}">taken</p>
+    <div th:if="${isTaken}">
+        <a th:href="@{/books/{id}/complete(id = ${book.getId()})}">Complete this book</a>
+    </div>
 
 </body>
 </html>

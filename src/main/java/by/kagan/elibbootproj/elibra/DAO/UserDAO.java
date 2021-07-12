@@ -76,7 +76,7 @@ public class UserDAO {
     public boolean doLog(User user) throws SQLException{
         int counter = 0;
         System.out.println("Method is working! " + ID);
-        while(counter<=ID){
+        while(counter<ID){
             if(userDBList().get(counter).getEmail().equals(user.getEmail()) && userDBList().get(counter).getPassword().equals(user.getPassword())){
                 user.setId(counter+1);
                 user.setLogin(true);
@@ -118,6 +118,14 @@ public class UserDAO {
         preparedStatement.setInt(2, user.getId());
         preparedStatement1.setInt(1, user.getId());
         preparedStatement.executeUpdate();
+        preparedStatement1.executeUpdate();
+    }
+    public void bookToCompleteUpd(User user) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set bookshave = bookshave - 1 where id = ?");
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.executeUpdate();
+        PreparedStatement preparedStatement1 = connection.prepareStatement("update users set booksdone = booksdone + 1 where id = ?");
+        preparedStatement1.setInt(1, user.getId());
         preparedStatement1.executeUpdate();
     }
     public List<Book> showMyBooks(int id) throws SQLException {

@@ -1,11 +1,26 @@
 package by.kagan.elibbootproj.elibra.Models;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
+
 public class User {
     private int id;
+    @NotEmpty(message = "Field name is empty")
+    @Size(min = 2, max = 30, message = "Invalid name, see text below the form")
     private String name;
+    @NotEmpty(message = "Field surname is empty")
+    @Size(min = 2, max = 36, message = "Invalid surname, see text below the form")
     private String surname;
+    @NotEmpty(message = "Field email is empty")
+    @Email(message = "Invalid email, see text below the form")
     private String email;
+    @NotEmpty(message = "Enter the password")
+    @Size(min = 8, max = 20, message = "Invalid password, see text below the form")
     private String password;
+    @Min(value = 16, message = "Age less than 16")
     private int age;
     private int booksDone = 0;
     private int booksHave = 0;

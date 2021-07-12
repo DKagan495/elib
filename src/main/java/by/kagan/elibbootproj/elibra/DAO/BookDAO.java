@@ -62,7 +62,7 @@ public class BookDAO {
         return bookList.get(id);
     }
     public void addBookToUser(int id) throws SQLException{
-        PreparedStatement preparedStatement = connection.prepareStatement("insert into bookstousers (book_id, book_name) select id, name from books where id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into bookstousers (book_id, book_name, book_author) select id, name, author from books where id = ?");
         preparedStatement.setInt(1, id);
         preparedStatement.executeUpdate();
     }
@@ -83,5 +83,15 @@ public class BookDAO {
             counter++;
         }
         return false;
+    }
+    public void addBookCompleteToUser(int bookId, int userId) throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("insert into b2udone (user_id, book_id, book_name, book_author) select user_id, book_id, book_name, book_author from bookstousers where book_id = ? and user_id = ?");
+        preparedStatement.setInt(1, bookId);
+        preparedStatement.setInt(2, userId);
+        preparedStatement.executeUpdate();
+        PreparedStatement preparedStatement1 = connection.prepareStatement("delete from bookstousers where book_id = ? and user_id = ?");
+        preparedStatement1.setInt(1, bookId);
+        preparedStatement1.setInt(2, userId);
+        preparedStatement1.executeUpdate();
     }
 }
