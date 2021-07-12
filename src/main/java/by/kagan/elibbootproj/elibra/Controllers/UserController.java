@@ -69,6 +69,7 @@ public class UserController {
         httpSession.setAttribute("isLogin", user.isLogin());
         httpSession.setAttribute("email", user.getEmail());
         httpSession.setAttribute("password", user.getPassword());
+        SessionService.setCURRENTSESSION(httpSession);
         System.out.println(httpSession.getAttribute("name") + " " + httpSession.getAttribute("surname"));
         return "redirect:/mycard";
     }
@@ -108,9 +109,15 @@ public class UserController {
         model.addAttribute("books", userDAO.showMyBooks((int) httpSession.getAttribute("id")));
         return "mybooks";
     }
+    @GetMapping("/users/{id}/books")
+    public String toUserBooks(@PathVariable int id, Model model) throws SQLException{
+        model.addAttribute("books", userDAO.showMyBooks(id));
+        return "mybooks";
+    }
     @GetMapping("/logout")
     public String logOut(@ModelAttribute User user){
         httpSession.invalidate();
+        SessionService.invalidateCURRENTSESSION();
         userDAO.doLogOut(user);
         return "redirect:/login";
     }

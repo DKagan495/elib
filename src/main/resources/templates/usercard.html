@@ -11,5 +11,6 @@
     <p th:text="'Age: ' + ${user.getAge()}">user</p>
     <p th:text="'Books have: ' + ${user.getBooksHave()}">user</p>
     <p th:text="'Books done: ' + ${user.getBooksDone()}">user</p>
+    <a th:if="${user.getBooksHave}>0" th:href="@{'/users/' + ${user.getId()} + '/books'}">Books in process</a>
 </body>
 </html>

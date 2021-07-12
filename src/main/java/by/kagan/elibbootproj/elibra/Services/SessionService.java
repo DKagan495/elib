@@ -14,4 +14,7 @@ public class SessionService {
     public static HttpSession getCURRENTSESSION() {
         return CURRENTSESSION;
     }
+    public static void invalidateCURRENTSESSION(){
+        CURRENTSESSION.invalidate();
+    }
 }
