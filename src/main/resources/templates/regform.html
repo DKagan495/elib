@@ -4,21 +4,81 @@
     <meta charset="UTF-8">
     <title>Registration</title>
 </head>
+<style>
+    h1{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: aqua;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 450px;
+        height: 50px;
+
+    }
+    .reg_field{
+        margin: 0 auto;
+        border: 7px solid lightcoral;
+        height: auto;
+        border-radius: 30px;
+        background-color: azure;
+        width: 570px;
+        vertical-align: center;
+    }
+    input{
+        font-family: "Arial Black";
+        background-color: darkgray;
+        border: 1px solid;
+    }
+    a{
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+    }
+    button{
+        width: 256px;
+        height: 64px;
+        text-decoration: none;
+        font-family: Arial;
+        font-size: 20px;
+        alignment: center;
+    }
+    body{
+        background-color: darkseagreen;
+    }
+</style>
 <body>
     <h1>Please, enter info about you</h1>
+    <div class="reg_field" align="middle">
 <form th:method="POST" th:object="${user}">
-    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{name}">nameerror</div>
+
+    <br/>
         <input type="text" th:field="*{name}" id="name" placeholder="Name"></br>
-    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{surname}">surnameerror</div>
+    <br/>
         <input type="text" th:field="*{surname}" id="surname" placeholder="Surname"><br>
-    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{age}">ageerror</div>
+    <br/>
         <input type="text" th:field="*{age}" id="age" placeholder="Age"></br>
-    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{email}">emailerror</div>
+    <br/>
         <input type="email" th:field="*{email}" id="email" placeholder="Email"></br>
-    <div style="color: red" th:if="${#fields.hasErrors}" th:errors="*{password}">passworderror</div>
+    <br/>
         <input type="password" th:field="*{password}" id="password" placeholder="Password"></br>
+    <br/>
     <input type="submit" value="Do this!">
+
+
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{name}">nameerror</p>
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{surname}">surnameerror</p>
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{age}">ageerror</p>
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{email}">emailerror</p>
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{password}">passworderror</p>
+    <br/>
 </form>
+    </div>
     <h2>Little information about registration</h2>
 </body>
 </html>

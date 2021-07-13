@@ -4,7 +4,65 @@
     <meta charset="UTF-8">
     <title>My Card</title>
 </head>
+<style>
+    h1{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkslategray;
+    }
+    p{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkolivegreen;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 450px;
+        height: 50px;
+
+    }
+    .mycard{
+        margin: 0 auto;
+        border: 7px solid lightcoral;
+        height: auto;
+        border-radius: 30px;
+        background-color: azure;
+        width: 570px;
+        vertical-align: center;
+    }
+    input{
+        font-family: "Arial Black";
+        background-color: darkgray;
+        border: 1px solid;
+    }
+    a{
+        font-family: "Arial Black";
+        font-size: 24px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+    }
+    button{
+        width: 256px;
+        height: 64px;
+        text-decoration: none;
+        font-family: Arial;
+        font-size: 20px;
+        alignment: center;
+    }
+    body{
+        background-color: darkseagreen;
+    }
+</style>
 <body>
+<div class="mycard" align="middle">
 <h1>Your reader`s card</h1>
     <p th:text="'Number of card: ' + ${user.getId()}">user</p>
     <p th:text="'Name: ' + ${user.getName()}">user</p>
@@ -12,10 +70,13 @@
     <p th:text="'Age: ' + ${user.getAge()}">user</p>
     <p th:text="'Books have: ' + ${user.getBooksHave()}">user</p>
     <p th:text="'Books done: ' + ${user.getBooksDone()}">user</p>
-<a href="/users">Our readers</a>
-<a href="/books">Books availible</a>
-<a href="/mybooks">My books</a>
-<a href="/completed">Books comleted</a>
-<a href="/logout">Log Out</a>
+</div>
+<div class="links" align="middle">
+    <a href="/users">Our readers</a>
+    <a href="/books">Books availible</a>
+    <a href="/mybooks">My books</a>
+    <a href="/completed">Books comleted</a>
+    <a href="/logout">Log Out</a>
+</div>
 </body>
 </html>

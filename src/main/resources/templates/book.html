@@ -4,16 +4,77 @@
     <meta charset="UTF-8">
     <title th:text="${book.getName()} + ' - ' + ${book.getAuthor}"></title>
 </head>
+<style>
+    h1{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkslategray;
+    }
+    p{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkolivegreen;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 450px;
+        height: 50px;
+
+    }
+    .book{
+        margin: 0 auto;
+        border: 7px solid lightcoral;
+        height: auto;
+        border-radius: 30px;
+        background-color: azure;
+        width: 700px;
+        vertical-align: center;
+    }
+    input{
+        font-family: "Arial Black";
+        background-color: darkgray;
+        border: 1px solid;
+    }
+    a{
+        font-family: "Arial Black";
+        font-size: 48px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+        text-decoration: none;
+    }
+    button{
+        width: 256px;
+        height: 64px;
+        text-decoration: none;
+        font-family: Arial;
+        font-size: 20px;
+        alignment: center;
+    }
+    body{
+        background-color: darkseagreen;
+    }
+</style>
 <body>
+<div class="book" align="middle">
     <p th:text="'Number of this book: ' + ${book.getId()}">book</p>
     <p th:text="${book.getName()}">book</p>
     <p th:text="${book.getAuthor()}">book</p>
     <p th:text="'This book contains ' + ${book.getNumberOfPages()} + ' pages'">book</p>
     <p th:text="'World see this book in ' + ${book.getYear()}">book</p>
+</div>
+<div class="links">
     <a th:if="${!isTaken}" th:href="@{/books/{id}/get(id = ${book.getId()})}">Get this book</a>
     <div th:if="${isTaken}">
         <a th:href="@{/books/{id}/complete(id = ${book.getId()})}">Complete this book</a>
     </div>
-
+</div>
 </body>
 </html>

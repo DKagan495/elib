@@ -4,14 +4,77 @@
     <meta charset="UTF-8">
     <title th:text="${user.getName()} + ' ' + ${user.getSurname()}">user</title>
 </head>
+<style>
+    h1{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkslategray;
+    }
+    p{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkolivegreen;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 450px;
+        height: 50px;
+
+    }
+    .usercard{
+        margin: 0 auto;
+        border: 7px solid lightcoral;
+        height: auto;
+        border-radius: 30px;
+        background-color: azure;
+        width: 570px;
+        vertical-align: center;
+    }
+    input{
+        font-family: "Arial Black";
+        background-color: darkgray;
+        border: 1px solid;
+    }
+    a{
+        font-family: "Arial Black";
+        font-size: 24px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+    }
+    button{
+        width: 256px;
+        height: 64px;
+        text-decoration: none;
+        font-family: Arial;
+        font-size: 20px;
+        alignment: center;
+    }
+    body{
+        background-color: darkseagreen;
+    }
+</style>
 <body>
+<h1>This is the reader`s card of our client</h1>
+<div class="usercard" align="center">
     <p th:text="'Number of card: ' + ${user.getId()}">user</p>
     <p th:text="'Name: ' + ${user.getName()}">user</p>
     <p th:text="'Surname: ' + ${user.getSurname()}">user</p>
     <p th:text="'Age: ' + ${user.getAge()}">user</p>
     <p th:text="'Books have: ' + ${user.getBooksHave()}">user</p>
     <p th:text="'Books done: ' + ${user.getBooksDone()}">user</p>
+</div>
+<h1>Here you can see the books, that our client reads, and books, that our client has already read</h1>
+<div class="links" align="middle">
     <a th:if="${user.getBooksHave()}>0" th:href="@{'/users/' + ${user.getId()} + '/books'}">Books in process</a>
     <a th:if="${user.getBooksDone()}>0" th:href="@{'/users/' + ${user.getId()} + '/completed'}">Completed books</a>
+</div>
 </body>
 </html>

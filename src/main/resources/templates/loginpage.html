@@ -4,14 +4,73 @@
     <meta charset="UTF-8">
     <title>Log In</title>
 </head>
+    <style>
+        h1{
+            text-align: center;
+            font-family: "Arial Black";
+            font-weight: bolder;
+            font-size: xxx-large;
+            color: aqua;
+        }
+       form{
+           align-items: center;
+           margin: 0 auto;
+       }
+        input{
+            width: 450px;
+            height: 50px;
+
+        }
+        .login_field{
+            margin: 0 auto;
+            border: 7px solid lightcoral;
+            height: 300px;
+            border-radius: 30px;
+            background-color: azure;
+            width: 570px;
+            vertical-align: center;
+        }
+        input{
+            font-family: "Arial Black";
+            background-color: darkgray;
+            border: 1px solid;
+        }
+        a{
+            margin: 0 auto;
+            alignment: center;
+            text-align: center;
+        }
+        button{
+            width: 256px;
+            height: 64px;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 20px;
+            alignment: center;
+        }
+        body{
+            background-color: darkseagreen;
+        }
+    </style>
 <body>
-<h1>Hello!</h1>
+<h1 style="font-weight: bold">Hello!</h1>
 <h1>I glad to see you at my library</h1>
+<br/>
+<div class="login_field" align="middle" th:style="'background-image:url(' + @{backgr.jpg} + ');'">
+    <br/><br/>
 <form th:method="POST" th:action="@{/mycard}" th:object="${user}">
-        <input type="text" th:field="*{email}" id="email" placeholder="Email"></br>
-        <input type="password" th:field="*{password}" id="password" placeholder="Password">
+        <input style="line-height: 150" type="text" th:field="*{email}" id="email" placeholder="Email"></br>
+        </br>
+        <input type="password" th:field="*{password}" id="password" placeholder="Password"><br/>
+    </br>
+    </br>
+    </br>
     <input type="submit" value="Log In">
 </form>
-<a href="/reg" >I`m not registrered yet</a>
+</div>
+<div align="middle">
+    <br/>
+<a href="/reg"><button>I`m not registered yet</button></a>
+</div>
 </body>
 </html>

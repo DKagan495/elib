@@ -75,8 +75,7 @@ public class UserDAO {
     }*/
     public boolean doLog(User user) throws SQLException{
         int counter = 0;
-        System.out.println("Method is working! " + ID);
-        while(counter<ID){
+        while(counter < userDBList().size()){
             if(userDBList().get(counter).getEmail().equals(user.getEmail()) && userDBList().get(counter).getPassword().equals(user.getPassword())){
                 user.setId(counter+1);
                 user.setLogin(true);
@@ -86,6 +85,7 @@ public class UserDAO {
             counter++;
         }
         System.out.println("down");
+        //user.setLogin(false);
         return false;
     }
     public User toMyCard(String email, String password) throws SQLException {

@@ -4,9 +4,71 @@
     <meta charset="UTF-8">
     <title>Readers</title>
 </head>
+<style>
+    h1{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkslategray;
+    }
+    p{
+        text-align: center;
+        font-family: "Arial Black";
+        font-weight: bolder;
+        font-size: xxx-large;
+        color: darkolivegreen;
+    }
+    form{
+        align-items: center;
+        margin: 0 auto;
+    }
+    input{
+        width: 450px;
+        height: 50px;
+
+    }
+    .userlist{
+        margin: 0 auto;
+        border: 7px solid lightcoral;
+        height: auto;
+        border-radius: 30px;
+        background-color: azure;
+        width: 700px;
+        vertical-align: center;
+    }
+    input{
+        font-family: "Arial Black";
+        background-color: darkgray;
+        border: 1px solid;
+    }
+    a{
+        font-family: "Arial Black";
+        font-size: 48px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+        text-decoration: none;
+    }
+    button{
+        width: 256px;
+        height: 64px;
+        text-decoration: none;
+        font-family: Arial;
+        font-size: 20px;
+        alignment: center;
+    }
+    body{
+        background-color: darkseagreen;
+    }
+</style>
 <body>
-<div th:each="user: ${userlist}">
-    <a th:href="@{/users/{id}(id = ${user.getId()})}" th:text="${user.getName()} + ' ' + ${user.getSurname}"></a>
+<h1>This is our readers</h1>
+<h1>You can click any reader and see his reader`s card</h1>
+<div class="userlist" align="middle">
+    <div th:each="user: ${userlist}">
+        <a th:href="@{/users/{id}(id = ${user.getId()})}" th:text="${user.getName()} + ' ' + ${user.getSurname}"></a>
+    </div>
 </div>
 </body>
 </html>
