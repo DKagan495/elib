@@ -130,26 +130,28 @@ public class UserDAO {
     }
     public List<Book> showMyBooks(int id) throws SQLException {
         List<Book> myBooksList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name from bookstousers where user_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name, book_author from bookstousers where user_id = ?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
             Book book = new Book();
             book.setId(resultSet.getInt("book_id"));
             book.setName(resultSet.getString("book_name"));
+            book.setAuthor(resultSet.getString("book_author"));
             myBooksList.add(book);
         }
         return myBooksList;
     }
     public List<Book> showCompletedBooks(int id) throws SQLException {
         List<Book> myBooksList = new ArrayList<>();
-        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name from b2udone where user_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("select book_id, book_name, book_author from b2udone where user_id = ?");
         preparedStatement.setInt(1, id);
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
             Book book = new Book();
             book.setId(resultSet.getInt("book_id"));
             book.setName(resultSet.getString("book_name"));
+            book.setAuthor(resultSet.getString("book_author"));
             myBooksList.add(book);
         }
         return myBooksList;

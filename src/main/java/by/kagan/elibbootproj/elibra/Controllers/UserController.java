@@ -113,23 +113,27 @@ public class UserController {
     }
     @GetMapping("/mybooks")
     public String toMyBooks(Model model) throws SQLException {
+        model.addAttribute("user", userDAO.toUserCard((int) httpSession.getAttribute("id")));
         model.addAttribute("books", userDAO.showMyBooks((int) httpSession.getAttribute("id")));
         return "mybooks";
     }
     @GetMapping("/completed")
     public String toMyCompletedBooks(Model model) throws SQLException {
+        model.addAttribute("user", userDAO.toUserCard((int) httpSession.getAttribute("id")));
         model.addAttribute("books", userDAO.showCompletedBooks((int) httpSession.getAttribute("id")));
-        return "mybooks";
+        return "mycompletedbooks";
     }
     @GetMapping("/users/{id}/books")
     public String toUserBooks(@PathVariable int id, Model model) throws SQLException{
+        model.addAttribute("user", userDAO.toUserCard(id));
         model.addAttribute("books", userDAO.showMyBooks(id));
         return "mybooks";
     }
     @GetMapping("/users/{id}/completed")
     public String toUserCompletedBooks(@PathVariable int id, Model model) throws SQLException{
+        model.addAttribute("user", userDAO.toUserCard((int) httpSession.getAttribute("id")));
         model.addAttribute("books", userDAO.showCompletedBooks(id));
-        return "mybooks";
+        return "mycompletedbooks";
     }
     @GetMapping("/completely")
     public String toCompleteOperation(@ModelAttribute User user) throws SQLException{

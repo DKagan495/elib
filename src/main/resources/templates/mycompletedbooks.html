@@ -63,11 +63,13 @@
         background-color: darkseagreen;
     }
 </style>
-<h1 th:text="${user.getName()} + ' ' + ${user.getSurname()} + ' читает эти книги:'">readbook</h1>
+<h1 th:text="${user.getName()} + ' ' + ${user.getSurname()} + ' прочитал(а) эти книги:'">readbook</h1>
 <div class="booklist" align="middle">
 <div th:each="book : ${books}">
     <a th:href="@{'/books/' + ${book.getId()}}" th:text="${book.getName()} + ' — ' + ${book.getAuthor()}">book</a>
 </div>
 </div>
+<a href="/mycard">To my card</a>
+<a href="/users">To user list</a>
 </body>
 </html>
