@@ -34,9 +34,9 @@ public class UserController {
         }
         return "redirect:/mycard";
     }
-    @PostMapping("/mycard")
+    @PostMapping("/login")
     public String loginAttempt(@ModelAttribute User user/*, RedirectAttributes redirectAttributes*/) throws SQLException {
-        if(userDAO.doLog(user)) {
+       if(userDAO.doLog(user)) {
             user.setLogin(true);
             //redirectAttributes.addFlashAttribute("user", user);
             httpSession.setAttribute("id", user.getId());
@@ -87,6 +87,17 @@ public class UserController {
         SessionService.setCURRENTSESSION(httpSession);
         System.out.println(SessionService.getCURRENTSESSION().getAttribute("email") + "it is session service saved email");
         return "mycard";
+    }
+    @GetMapping("/edit")
+    public String toEditForm(Model model) throws SQLException {
+        model.addAttribute("user", userDAO.toUserCard((int) SessionService.getCURRENTSESSION().getAttribute("id")));
+        return "editform";
+    }
+    @PatchMapping("/edit")
+    public String editAttempt(@ModelAttribute @Valid User user, BindingResult bindingResult) throws SQLException {
+        user.setId((int)SessionService.getCURRENTSESSION().getAttribute("id"));
+        userDAO.updateUser(user);
+        return "redirect:/mycard";
     }
     @GetMapping("/users")
     public String toUserList(Model model) throws SQLException{

@@ -51,12 +51,10 @@ public class UserDAO {
             userList.add(user);
         }
         userList.sort((o1, o2) -> o1.getId() - o2.getId());
-        for(User user : userList)
-            System.out.println(user.getId());
         return userList;
     }
     public void doReg(User user) throws SQLException {
-        System.out.println("What do ypu mean about this&");
+        System.out.println("what&");
         userDBList();
         user.setId(ID+1);
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
@@ -84,7 +82,7 @@ public class UserDAO {
             }
             counter++;
         }
-        System.out.println("down");
+        System.out.println("почему-то сработал дулог");
         //user.setLogin(false);
         return false;
     }
@@ -103,6 +101,14 @@ public class UserDAO {
     }
     public List<User> showUserList() throws SQLException{
         return userDBList();
+    }
+    public void updateUser(User user) throws SQLException{
+        System.out.println(user.getId() + " edited user name");
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set name = ? where id = ?");
+        preparedStatement.setString(1, user.getName());
+        preparedStatement.setInt(2, user.getId());
+        preparedStatement.executeUpdate();
+        System.out.println("final o4ka");
     }
     public void plusBookUpd(User user) throws SQLException{
         PreparedStatement pstmt = connection.prepareStatement("select bookshave from users where id = ?");

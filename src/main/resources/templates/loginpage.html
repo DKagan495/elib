@@ -58,7 +58,7 @@
 <br/>
 <div class="login_field" align="middle" th:style="'background-image:url(' + @{backgr.jpg} + ');'">
     <br/><br/>
-<form th:method="POST" th:action="@{/mycard}" th:object="${user}">
+<form th:method="POST" th:action="@{/login}" th:object="${user}">
         <input style="line-height: 150" type="text" th:field="*{email}" id="email" placeholder="Email"></br>
         </br>
         <input type="password" th:field="*{password}" id="password" placeholder="Password"><br/>
