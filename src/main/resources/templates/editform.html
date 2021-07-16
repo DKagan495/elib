@@ -61,10 +61,13 @@
     <input type="text" th:field="*{surname}" id="surname" placeholder="Surname"><br>
     <br/>
     <input type="text" th:field="*{age}" id="age" placeholder="Age"></br>
+    <input type="hidden" th:field="*{password}" id="password"></br>
+    <input type="hidden" th:field="*{email}" id="email"></br>
     <input type="submit" value="Update">
     <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{name}">nameerror</p>
     <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{surname}">surnameerror</p>
     <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{age}">ageerror</p>
+    <p style="color: red" th:if="${#fields.hasErrors}" th:errors="*{password}">ageerror</p>
     <br/>
 </form>
 </div>

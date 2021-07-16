@@ -68,6 +68,7 @@
 <div class="userlist" align="middle">
     <div th:each="user: ${userlist}">
         <a th:href="@{/users/{id}(id = ${user.getId()})}" th:text="${user.getName()} + ' ' + ${user.getSurname}"></a>
+        <p th:if="${user.isOnlineStatus}">•</p>
     </div>
 </div>
 </body>

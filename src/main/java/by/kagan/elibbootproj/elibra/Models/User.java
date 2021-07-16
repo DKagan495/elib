@@ -22,6 +22,7 @@ public class User {
     private String password;
     @Min(value = 16, message = "Age less than 16")
     private int age;
+    private boolean onlineStatus = false;
     private int booksDone = 0;
     private int booksHave = 0;
     private boolean login = false;
@@ -33,6 +34,14 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.age = age;
+    }
+
+    public boolean isOnlineStatus() {
+        return onlineStatus;
+    }
+
+    public void setOnlineStatus(boolean onlineStatus) {
+        this.onlineStatus = onlineStatus;
     }
 
     public boolean isLogin() {

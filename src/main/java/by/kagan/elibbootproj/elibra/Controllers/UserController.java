@@ -4,6 +4,8 @@ import by.kagan.elibbootproj.elibra.DAO.UserDAO;
 import by.kagan.elibbootproj.elibra.Models.User;
 import by.kagan.elibbootproj.elibra.Services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,6 +90,7 @@ public class UserController {
         System.out.println(SessionService.getCURRENTSESSION().getAttribute("email") + "it is session service saved email");
         return "mycard";
     }
+
     @GetMapping("/edit")
     public String toEditForm(Model model) throws SQLException {
         model.addAttribute("user", userDAO.toUserCard((int) SessionService.getCURRENTSESSION().getAttribute("id")));
@@ -96,8 +99,17 @@ public class UserController {
     @PatchMapping("/edit")
     public String editAttempt(@ModelAttribute @Valid User user, BindingResult bindingResult) throws SQLException {
         user.setId((int)SessionService.getCURRENTSESSION().getAttribute("id"));
+        if(bindingResult.hasErrors())
+            return "editform";
         userDAO.updateUser(user);
         return "redirect:/mycard";
+    }
+    @GetMapping("/delete")
+    public String toDeleteUser() throws SQLException{
+        userDAO.deleteUser((int)SessionService.getCURRENTSESSION().getAttribute("id"));
+        SessionService.invalidateCURRENTSESSION();
+        httpSession.invalidate();
+        return "redirect:/login";
     }
     @GetMapping("/users")
     public String toUserList(Model model) throws SQLException{
@@ -113,6 +125,8 @@ public class UserController {
             return "redirect:/login";
         }
         model.addAttribute("user", userDAO.toUserCard(id));
+        model.addAttribute("online_status", userDAO.isOnline(id));
+        System.out.println(userDAO.toUserCard(id).isLogin() + " online&");
         return "usercard";
     }
     @GetMapping("/sucget")
@@ -127,6 +141,10 @@ public class UserController {
         model.addAttribute("user", userDAO.toUserCard((int) httpSession.getAttribute("id")));
         model.addAttribute("books", userDAO.showMyBooks((int) httpSession.getAttribute("id")));
         return "mybooks";
+    }
+    @ModelAttribute
+    public void addAttributes(Model model){
+        model.addAttribute("msg", "Give me my movey, Strakhivit4!!!");
     }
     @GetMapping("/completed")
     public String toMyCompletedBooks(Model model) throws SQLException {
@@ -153,7 +171,8 @@ public class UserController {
         return "redirect:/mycard";
     }
     @GetMapping("/logout")
-    public String logOut(@ModelAttribute User user){
+    public String logOut(@ModelAttribute User user) throws SQLException {
+        user.setId((int)SessionService.getCURRENTSESSION().getAttribute("id"));
         httpSession.invalidate();
         SessionService.invalidateCURRENTSESSION();
         userDAO.doLogOut(user);

@@ -64,6 +64,7 @@
 <body>
 <h1>This is the reader`s card of our client</h1>
 <div class="usercard" align="center">
+    <p th:if="${online_status}">online now</p>
     <p th:text="'Number of card: ' + ${user.getId()}">user</p>
     <p th:text="'Name: ' + ${user.getName()}">user</p>
     <p th:text="'Surname: ' + ${user.getSurname()}">user</p>

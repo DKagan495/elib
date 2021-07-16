@@ -30,6 +30,7 @@
     }
     .booklist{
         margin: 0 auto;
+        margin-top: 120px;
         border: 7px solid lightcoral;
         height: auto;
         border-radius: 30px;
@@ -42,6 +43,14 @@
         background-color: darkgray;
         border: 1px solid;
     }
+    .links{
+        font-family: "Arial Black";
+        font-size: 36px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+        text-decoration: none;
+    }
     a{
         font-family: "Arial Black";
         font-size: 48px;
@@ -49,6 +58,14 @@
         alignment: center;
         text-align: center;
         text-decoration: none;
+    }
+    a hover{
+        font-family: "Arial Black";
+        font-size: 48px;
+        margin: 0 auto;
+        alignment: center;
+        text-align: center;
+        text-decoration: black;
     }
     button{
         width: 256px;
@@ -58,11 +75,26 @@
         font-size: 20px;
         alignment: center;
     }
+    header{
+        margin-top: -100px;
+        background-color: aliceblue;
+        position: fixed;
+    }
     body{
         background-color: darkseagreen;
     }
 </style>
 <body>
+<header>
+    <div class="links" align="middle">
+        <a href="/users">Our readers</a>
+        <a href="/books">Books availible</a>
+        <a href="/mybooks">My books</a>
+        <a href="/completed">Books comleted</a>
+        <a href="/logout">Log Out</a>
+        <a href="/edit">Edit card</a>
+    </div>
+</header>
 <div class="booklist" align="middle">
 <div th:each="book : ${booklist}">
     <a th:href="@{/books/{id}(id = ${book.getId()})}" th:text="${book.getName()} + ' ' + ${book.getAuthor()}">book</a>

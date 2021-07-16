@@ -9,8 +9,8 @@
             text-align: center;
             font-family: "Arial Black";
             font-weight: bolder;
-            font-size: xxx-large;
-            color: aqua;
+            font-size: 72px;
+            color: darkgray;
         }
        form{
            align-items: center;
@@ -23,9 +23,8 @@
         }
         .login_field{
             margin: 0 auto;
-            border: 7px solid lightcoral;
+            border: 0.5px solid darkslategray;
             height: 300px;
-            border-radius: 30px;
             background-color: azure;
             width: 570px;
             vertical-align: center;
@@ -49,14 +48,14 @@
             alignment: center;
         }
         body{
-            background-color: darkseagreen;
+            background-color: slategray;
         }
     </style>
 <body>
 <h1 style="font-weight: bold">Hello!</h1>
 <h1>I glad to see you at my library</h1>
 <br/>
-<div class="login_field" align="middle" th:style="'background-image:url(' + @{backgr.jpg} + ');'">
+<div class="login_field" align="middle" style="background-color: dimgray">
     <br/><br/>
 <form th:method="POST" th:action="@{/login}" th:object="${user}">
         <input style="line-height: 150" type="text" th:field="*{email}" id="email" placeholder="Email"></br>
@@ -70,7 +69,8 @@
 </div>
 <div align="middle">
     <br/>
-<a href="/reg"><button>I`m not registered yet</button></a>
+    <a href="/reg"><button>I`m not registered yet</button></a>
+    <p th:text="${msg}">message</p>
 </div>
 </body>
 </html>

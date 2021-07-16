@@ -38,7 +38,6 @@ public class UserDAO {
         PreparedStatement preparedStatement = connection.prepareStatement("select*from users");
         ResultSet resultSet = preparedStatement.executeQuery();
         while(resultSet.next()){
-            ID++;
             User user = new User();
             user.setId(resultSet.getInt("id"));
             user.setName(resultSet.getString("name"));
@@ -48,16 +47,18 @@ public class UserDAO {
             user.setAge(resultSet.getInt("age"));
             user.setBooksHave(resultSet.getInt("bookshave"));
             user.setBooksDone(resultSet.getInt("booksdone"));
+            user.setOnlineStatus(resultSet.getBoolean("online_status"));
             userList.add(user);
         }
         userList.sort((o1, o2) -> o1.getId() - o2.getId());
+        ID = userList.get(userList.size()-1).getId();
         return userList;
     }
     public void doReg(User user) throws SQLException {
         System.out.println("what&");
         userDBList();
         user.setId(ID+1);
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         preparedStatement.setInt(8, user.getId());
         preparedStatement.setString(1, user.getName());
         preparedStatement.setString(2, user.getSurname());
@@ -66,6 +67,7 @@ public class UserDAO {
         preparedStatement.setInt(5, user.getAge());
         preparedStatement.setInt(6, user.getBooksHave());
         preparedStatement.setInt(7, user.getBooksDone());
+        preparedStatement.setBoolean(9, true);
         preparedStatement.executeUpdate();
     }
     /*public User toUsersCard(){
@@ -75,9 +77,13 @@ public class UserDAO {
         int counter = 0;
         while(counter < userDBList().size()){
             if(userDBList().get(counter).getEmail().equals(user.getEmail()) && userDBList().get(counter).getPassword().equals(user.getPassword())){
-                user.setId(counter+1);
+                user.setId(userDBList().get(counter).getId());
                 user.setLogin(true);
                 System.out.println("success");
+                PreparedStatement preparedStatement = connection.prepareStatement("update users set online_status = true where email = ? and password = ?");
+                preparedStatement.setString(1, user.getEmail());
+                preparedStatement.setString(2, user.getPassword());
+                preparedStatement.executeUpdate();
                 return true;
             }
             counter++;
@@ -97,18 +103,31 @@ public class UserDAO {
             return null;
     }
     public User toUserCard(int id) throws SQLException{
-        return userDBList().get(id-1);
+        return userDBList().stream().filter(n->n.getId() == id).findAny().orElse(null);
     }
     public List<User> showUserList() throws SQLException{
         return userDBList();
     }
     public void updateUser(User user) throws SQLException{
         System.out.println(user.getId() + " edited user name");
-        PreparedStatement preparedStatement = connection.prepareStatement("update users set name = ? where id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set name = ?, surname = ?, age = ? where id = ?");
         preparedStatement.setString(1, user.getName());
-        preparedStatement.setInt(2, user.getId());
+        preparedStatement.setString(2, user.getSurname());
+        preparedStatement.setInt(3, user.getAge());
+        preparedStatement.setInt(4, user.getId());
         preparedStatement.executeUpdate();
         System.out.println("final o4ka");
+    }
+    public void deleteUser(int id) throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement("delete from users where id = ?");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
+        PreparedStatement preparedStatement1 = connection.prepareStatement("delete from b2udone where user_id = ?");
+        preparedStatement1.setInt(1, id);
+        preparedStatement1.executeUpdate();
+        PreparedStatement preparedStatement2 = connection.prepareStatement("delete from bookstousers where user_id = ?");
+        preparedStatement2.setInt(1, id);
+        preparedStatement2.executeUpdate();
     }
     public void plusBookUpd(User user) throws SQLException{
         PreparedStatement pstmt = connection.prepareStatement("select bookshave from users where id = ?");
@@ -162,7 +181,19 @@ public class UserDAO {
         }
         return myBooksList;
     }
-    public void doLogOut(User user){
+    public boolean isOnline(int id) throws SQLException{
+        PreparedStatement preparedStatement = connection.prepareStatement("select online_status from users where id = ?");
+        preparedStatement.setInt(1, id);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if(resultSet.next())
+            return resultSet.getBoolean("online_status");
+        return false;
+    }
+    public void doLogOut(User user) throws SQLException{
+        System.out.println(user.isLogin() + "is thius chmous loggined&");
+        PreparedStatement preparedStatement = connection.prepareStatement("update users set online_status = false where id = ?");
+        preparedStatement.setInt(1, user.getId());
+        preparedStatement.executeUpdate();
         user.setLogin(false);
     }
 }
